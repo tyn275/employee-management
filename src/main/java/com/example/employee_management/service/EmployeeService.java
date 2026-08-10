@@ -3,6 +3,7 @@ package com.example.employee_management.service;
 import com.example.employee_management.dto.EmployeeDto;
 import com.example.employee_management.entity.Department;
 import com.example.employee_management.entity.Employee;
+import com.example.employee_management.exception.EmployeeNotFoundException;
 import com.example.employee_management.repository.DepartmentRepository;
 import com.example.employee_management.repository.EmployeeRepository;
 import org.modelmapper.ModelMapper;
@@ -57,7 +58,7 @@ public class EmployeeService {
 
         if (dto.getDepartmentId() != null) {
             Department department = departmentRepository.findById(dto.getDepartmentId())
-                    .orElseThrow(() -> new RuntimeException(
+                    .orElseThrow(() -> new EmployeeNotFoundException(
                             "Không tìm thấy phòng ban với id = " + dto.getDepartmentId()));
             employee.setDepartment(department);
         }
