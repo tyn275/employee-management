@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Danh sách nhân viên</title></head>
+<body>
+<h1>Danh sách nhân viên</h1>
+<a href="/employees/add">+ Thêm mới</a>
+<a href="/employees/search">Tìm kiếm</a>
+
+<table>
+    <thead>
+    <tr><th>ID</th><th>Tên</th><th>Email</th><th>Phòng ban</th></tr>
+    </thead>
+    <tbody>
+    <!-- th:each = vòng lặp, th:text = in giá trị -->
+    <tr th:each="emp : ${employees}">
+        <td th:text="${emp.id}"></td>
+        <td th:text="${emp.name}"></td>
+        <td th:text="${emp.email}"></td>
+        <td th:text="${emp.departmentName}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

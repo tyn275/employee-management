@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Tìm kiếm nhân viên</title></head>
+<body>
+<h1>Tìm kiếm nhân viên</h1>
+
+<form action="/employees/search" method="get">
+    <input type="text" name="name" th:value="${name}" placeholder="Tên nhân viên" />
+    <input type="text" name="departmentName" th:value="${departmentName}" placeholder="Tên phòng ban" />
+    <button type="submit">Tìm</button>
+</form>
+
+<!-- Chỉ hiển thị bảng khi có kết quả -->
+<div th:if="${employees != null}">
+    <p>Kết quả: <span th:text="${#lists.size(employees)}"></span> nhân viên</p>
+    <table>
+        <thead>
+        <tr><th>Tên</th><th>Email</th><th>Phòng ban</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="emp : ${employees}">
+            <td th:text="${emp.name}"></td>
+            <td th:text="${emp.email}"></td>
+            <td th:text="${emp.departmentName}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

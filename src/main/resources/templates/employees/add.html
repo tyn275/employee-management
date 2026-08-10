@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Thêm nhân viên</title></head>
+<body>
+<h1>Thêm nhân viên mới</h1>
+
+<!-- th:object bind form với EmployeeDto -->
+<!-- th:action = URL submit form -->
+<form th:action="@{/employees/add}" th:object="${employeeDto}" method="post">
+
+    <label>Tên:</label>
+    <!-- th:field bind với field "name" của EmployeeDto -->
+    <input type="text" th:field="*{name}" />
+    <!-- Hiển thị lỗi validation nếu có -->
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></span>
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}" />
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></span>
+
+    <label>ID Phòng ban:</label>
+    <input type="number" th:field="*{departmentId}" />
+
+    <button type="submit">Lưu</button>
+    <a href="/employees/list">Hủy</a>
+</form>
+</body>
+</html>
