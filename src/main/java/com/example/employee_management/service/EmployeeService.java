@@ -52,6 +52,27 @@ public class EmployeeService {
         return dto;
     }
 
+    public List<EmployeeDto> searchEmployees(String name, String departmentName) {
+        List<Employee> results;
+
+        boolean hasName = name != null && !name.isBlank();
+        boolean hasDept = departmentName != null && !departmentName.isBlank();
+
+        if (hasName && hasDept) {
+            results = employeeRepository
+                    .findByNameContainingIgnoreCaseAndDepartment_NameContainingIgnoreCase(name, departmentName);
+        } else if (hasName) {
+            results = employeeRepository.findByNameContainingIgnoreCase(name);
+        } else if (hasDept) {
+            results = employeeRepository.findByDepartment_NameContainingIgnoreCase(departmentName);
+        } else {
+            results = employeeRepository.findAll();
+        }
+
+        return results.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+
     private Employee toEntity(EmployeeDto dto) {
         Employee employee = modelMapper.map(dto, Employee.class);
         employee.setId(null); // đảm bảo luôn tạo mới, tránh ghi đè nhầm nếu client lỡ gửi id
