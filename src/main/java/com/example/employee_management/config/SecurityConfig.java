@@ -11,9 +11,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http){
         http
+//                Tam thoi tat de su dung phuong thuc POST
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/public/**", "/api/auth/**").permitAll()
-                        . requestMatchers("/api/admin/**").hasRole("ADMIN")
+//                        Tam thoi set permitAll()
+                        .requestMatchers("/api/v1/employees/**").permitAll()
+//                        . requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
         return http.build();
     }

@@ -15,5 +15,6 @@ public class EmployeeDto {
     private Long id;
     private String name;
     private String email;
-    private String departmentId;
+    private Long departmentId; // For Post method
+    private String departmentName; // For Get method
 }
