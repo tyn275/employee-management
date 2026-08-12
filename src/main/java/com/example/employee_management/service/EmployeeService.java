@@ -1,6 +1,5 @@
 package com.example.employee_management.service;
 
-import ch.qos.logback.classic.Logger;
 import com.example.employee_management.dto.EmployeeDto;
 import com.example.employee_management.entity.Department;
 import com.example.employee_management.entity.Employee;
@@ -8,7 +7,9 @@ import com.example.employee_management.exception.EmployeeNotFoundException;
 import com.example.employee_management.repository.DepartmentRepository;
 import com.example.employee_management.repository.EmployeeRepository;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeeService {
 
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(EmployeeService.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
 
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
@@ -79,7 +80,6 @@ public class EmployeeService {
         return results.stream().map(this::toDto).collect(Collectors.toList());
     }
 
-
     private Employee toEntity(EmployeeDto dto) {
         Employee employee = modelMapper.map(dto, Employee.class);
         employee.setId(null); // đảm bảo luôn tạo mới, tránh ghi đè nhầm nếu client lỡ gửi id
@@ -94,6 +94,12 @@ public class EmployeeService {
             employee.setDepartment(department);
         }
         return employee;
+    }
+
+    @Cacheable("employeeCount")
+    public long getTotalEmployeeCount() {
+        logger.info("Đang query DB để đếm tổng số nhân viên (cache miss)");
+        return employeeRepository.count();
     }
 }
 

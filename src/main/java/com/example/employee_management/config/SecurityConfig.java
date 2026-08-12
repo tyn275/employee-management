@@ -18,6 +18,7 @@ public class SecurityConfig {
 //                        Tam thoi set permitAll()
                         .requestMatchers("/api/v1/employees/**").permitAll()
                         .requestMatchers("/employees/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
 //                        . requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
         return http.build();
