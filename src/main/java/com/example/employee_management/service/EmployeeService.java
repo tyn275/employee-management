@@ -1,5 +1,6 @@
 package com.example.employee_management.service;
 
+import com.example.employee_management.dto.DepartmentStatsDto;
 import com.example.employee_management.dto.EmployeeDto;
 import com.example.employee_management.entity.Department;
 import com.example.employee_management.entity.Employee;
@@ -98,6 +99,10 @@ public class EmployeeService {
         }
 
         return results.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public List<DepartmentStatsDto> getEmployeeCountByDepartment() {
+        return employeeRepository.countEmployeesByDepartment();
     }
 
     private Employee toEntity(EmployeeDto dto) {

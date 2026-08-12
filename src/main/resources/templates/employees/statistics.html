@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thống kê nhân viên</title>
+</head>
+<body>
+
+<h1>Thống kê nhân viên</h1>
+
+<!-- Tổng số nhân viên -->
+<p>Tổng số nhân viên trong hệ thống: <strong th:text="${totalCount}"></strong></p>
+
+<hr>
+
+<!-- Bảng thống kê theo phòng ban -->
+<h2>Số lượng theo phòng ban</h2>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Phòng ban</th>
+        <th>Số nhân viên</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- th:each = vòng lặp for-each của Thymeleaf -->
+    <tr th:each="stat : ${deptStats}">
+        <td th:text="${stat.departmentName}"></td>
+        <td th:text="${stat.employeeCount}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<a href="/employees/list">← Quay về danh sách</a>
+
+</body>
+</html>

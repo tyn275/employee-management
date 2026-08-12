@@ -1,5 +1,6 @@
 package com.example.employee_management.controller;
 
+import com.example.employee_management.dto.DepartmentStatsDto;
 import com.example.employee_management.dto.EmployeeDto;
 import com.example.employee_management.service.EmployeeService;
 import jakarta.validation.Valid;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Controller;  // ← Khác với @RestContr
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/employees")
@@ -54,6 +57,19 @@ public class EmployeeViewController {
         model.addAttribute("name", name);
         model.addAttribute("departmentName", departmentName);
         return "employees/search"; // → templates/employees/search.html
+    }
+
+    @GetMapping("/statistics")
+    public String showStatistics(Model model){
+//        Thong ke theo phong ban
+        List<DepartmentStatsDto> deptStats = employeeService.getEmployeeCountByDepartment();
+        model.addAttribute("deptStats", deptStats);
+
+//        Tong so nhan vien
+        long totalCount = employeeService.getTotalEmployeeCount();
+        model.addAttribute("totalCount", totalCount);
+
+        return "employees/statistics";
     }
 }
 
