@@ -47,6 +47,26 @@ public class EmployeeService {
         return toDto(saved);
     }
 
+    public EmployeeDto updateEmployee(Long id, EmployeeDto dto){
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Không tìm thấy nhân viên với id = " + id));
+
+        employee.setName(dto.getName());
+        employee.setEmail(dto.getEmail());
+
+        if(dto.getDepartmentId() != null){
+            Department department = departmentRepository.findById(dto.getDepartmentId())
+                    .orElseThrow(() -> new EmployeeNotFoundException("Không tìm thấy phòng ban với id = " + dto.getDepartmentId()));
+            employee.setDepartment(department);
+        }
+        return toDto(employeeRepository.save(employee));
+    }
+    public void deleteEmployee(Long id){
+        if(!employeeRepository.existsById(id)){
+            throw new EmployeeNotFoundException("Không tìm thấy nhân viên với id = " + id);
+        }
+        employeeRepository.deleteById(id);
+    }
+
     public Optional<EmployeeDto> getEmployeeById(Long id) {
         return employeeRepository.findById(id).map(this::toDto);
     }
